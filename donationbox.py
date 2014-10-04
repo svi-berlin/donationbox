@@ -1,6 +1,5 @@
 #!/usr/local/bin/python
 
-import Adafruit_CharLCD
 import functools
 import math
 import os
@@ -18,7 +17,7 @@ fortune_base = '/usr/share/games/fortunes'
 printer_tty = '/dev/ttyAMA0'
 printer_baud = 19200
 printer_currency_symbol = ''
-lcd_currency_symbol = '\x93'
+
 buttons = (
     (16, 'black'),
     (12, 'white'),
@@ -56,22 +55,6 @@ extra_fortunes = (
 )
 
 hr = '-' * 32
-
-databasesx = (
-    (7,     ('computer')),
-    (15,    ('asciiart')),
-    (30,    ('startrek')),
-    (75,    ('science')),
-    (150,   ('tao')),
-)
-
-databasesy = (
-	(15, 	('love','kekse')),
-	(30, 	('science','miscellaneous')),
-	(75, 	('kekse','kekse')),
-	(150, 	('tao','wisdom'))
-)
-
 
 databases = (
     (7,     ('disclaimer', 'miscellaneous', 'riddles')),
@@ -189,7 +172,7 @@ def generate_wisdom(value):
     message.append('\n')
     message.append('Herzlichsten Dank!\n')
     message.append('Deine Spende: %.2f Euro\n' % (value / 100.0))
-    fobj = open("/usr/local/bin/advisor/donations.txt", "r")
+    fobj = open("/usr/local/bin/donationbox/donations.txt", "r")
     for line in fobj:
     	donations = int(line)
     fobj.close()
@@ -296,13 +279,13 @@ class AdvisorApplication(object):
         #self.display.clear()
         print "Dispensing"
         #self.display.setCursor(0, 1)
-        fobj = open("/usr/local/bin/advisor/donations.txt", "r")
+        fobj = open("/usr/local/bin/donationbox/donations.txt", "r")
 	for line in fobj: 
     		donations = int(line)
 		total_donations = donations + self.balance 
 	fobj.close()
 	
-	fobj = open("/usr/local/bin/advisor/donations.txt", "w")
+	fobj = open("/usr/local/bin/donationbox/donations.txt", "w")
 	fobj.write(str(total_donations))
 	fobj.close()
 
