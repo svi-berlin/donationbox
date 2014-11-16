@@ -64,6 +64,15 @@ databases = (
     (150,   ('literature', 'wisdom', 'tao')),
 )
 
+_______databases = (
+    (7,     ('zitate', 'tips')),
+    (15,    ('warmduscher', 'quiz')),
+    (30,    ('zitate', 'vornamen')),
+    (75,    ('stilblueten', 'warmduscher')),
+    (150,   ('stilblueten', 'tips')),
+)
+
+
 databases = tuple((value,
                    tuple(strfile.Strfile(os.path.join(fortune_base, dbname))
                          for dbname in dbnames))
@@ -153,16 +162,20 @@ printer.write('\x1B{1')
 
 def print_message(lines):
 	global print_bonus
+	fobj = open("/usr/local/bin/donationbox/fortunes.txt", "a")
 	for line in lines[::-1]:
+        	print line
+		fobj.write(str(line))
         	printer.write(line)
+	fobj.close()
 	time.sleep(0.5)
-	os.system("fswebcam -r 1280x720 /home/pi/webcam/photobooth.jpg")
-	os.system("python /home/pi/Python-Thermal-Printer/print-cam.py")
-        time.sleep(0.5)
+	#os.system("fswebcam -r 1280x720 /home/pi/webcam/photobooth.jpg")
+	#os.system("python /home/pi/Python-Thermal-Printer/print-cam.py")
+        #time.sleep(0.5)
 
 def generate_wisdom(value):
     global print_bonus
-    move_servo(value)
+    #move_servo(value)
     message = []
     message.append('\n')
     message.append('\n')
@@ -352,7 +365,7 @@ class AdvisorApplication(object):
             
 def main():
     GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(24, GPIO.OUT)    
+    #GPIO.setup(24, GPIO.OUT)    
     for pin, name in buttons:
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     input_handlers = [ui.InputEventHandler(functools.partial(GPIO.input, pin), name)
